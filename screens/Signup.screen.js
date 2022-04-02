@@ -1,8 +1,8 @@
 import * as React from "react";
-import AppLoading from "expo-app-loading";
 import tw from "twrnc";
+import AppLoading from "expo-app-loading";
 import {
-  Dimensions,
+  useWindowDimensions,
   SafeAreaView,
   StatusBar,
   ScrollView,
@@ -12,39 +12,29 @@ import {
 } from "react-native";
 import {
   useFonts,
-  Poppins_300Light,
-  Poppins_300Light_Italic,
   Poppins_400Regular,
-  Poppins_400Regular_Italic,
   Poppins_500Medium,
-  Poppins_500Medium_Italic,
   Poppins_600SemiBold,
-  Poppins_600SemiBold_Italic,
-  Poppins_700Bold,
-  Poppins_700Bold_Italic,
 } from "@expo-google-fonts/poppins";
+
+import { useAuth } from "../lib/auth";
 
 import { FormInput } from "../components/FormInput";
 import { TextLink } from "../components/TextLink";
 
-export function SignUpScreen({ navigation }) {
+export function SignupScreen({ navigation }) {
+  const auth = useAuth();
+
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  const halfWidth = Dimensions.get("window").width / 2;
+  const { width } = useWindowDimensions();
 
   let [fontsLoaded] = useFonts({
-    Poppins_300Light,
-    Poppins_300Light_Italic,
     Poppins_400Regular,
-    Poppins_400Regular_Italic,
     Poppins_500Medium,
-    Poppins_500Medium_Italic,
     Poppins_600SemiBold,
-    Poppins_600SemiBold_Italic,
-    Poppins_700Bold,
-    Poppins_700Bold_Italic,
   });
 
   if (!fontsLoaded) return <AppLoading />;
@@ -58,7 +48,7 @@ export function SignUpScreen({ navigation }) {
           <Text
             style={[
               tw`text-4xl mt-12 mb-8 leading-relaxed`,
-              { width: halfWidth, fontFamily: "Poppins_600SemiBold" },
+              { width: width / 2, fontFamily: "Poppins_600SemiBold" },
             ]}
           >
             Hello! {"\n"}Signup to {"\n"}get started
@@ -112,7 +102,7 @@ export function SignUpScreen({ navigation }) {
             />
           </View>
           <Pressable
-            onPress={() => console.log("login")}
+            onPress={() => auth.signupWithEmail(email, password)}
             style={tw`justify-center items-center bg-purple-600 p-4 w-full rounded-xl mb-6`}
           >
             <Text

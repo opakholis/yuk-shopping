@@ -2,7 +2,7 @@ import * as React from "react";
 import AppLoading from "expo-app-loading";
 import tw from "twrnc";
 import {
-  Dimensions,
+  useWindowDimensions,
   SafeAreaView,
   StatusBar,
   ScrollView,
@@ -11,40 +11,31 @@ import {
   Image,
   Pressable,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import {
   useFonts,
-  Poppins_300Light,
-  Poppins_300Light_Italic,
   Poppins_400Regular,
-  Poppins_400Regular_Italic,
   Poppins_500Medium,
-  Poppins_500Medium_Italic,
   Poppins_600SemiBold,
-  Poppins_600SemiBold_Italic,
-  Poppins_700Bold,
-  Poppins_700Bold_Italic,
 } from "@expo-google-fonts/poppins";
+
+import { useAuth } from "../lib/auth";
 
 import { FormInput } from "../components/FormInput";
 import { TextLink } from "../components/TextLink";
 
-export function LoginScreen({ navigation }) {
+export function LoginScreen() {
+  const auth = useAuth();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  const halfWidth = Dimensions.get("window").width / 2;
+  const { width } = useWindowDimensions();
+  const { navigate } = useNavigation();
 
   let [fontsLoaded] = useFonts({
-    Poppins_300Light,
-    Poppins_300Light_Italic,
     Poppins_400Regular,
-    Poppins_400Regular_Italic,
     Poppins_500Medium,
-    Poppins_500Medium_Italic,
     Poppins_600SemiBold,
-    Poppins_600SemiBold_Italic,
-    Poppins_700Bold,
-    Poppins_700Bold_Italic,
   });
 
   if (!fontsLoaded) return <AppLoading />;
@@ -58,7 +49,7 @@ export function LoginScreen({ navigation }) {
           <Text
             style={[
               tw`text-4xl mt-12 mb-8 leading-relaxed`,
-              { width: halfWidth, fontFamily: "Poppins_600SemiBold" },
+              { width: width / 2, fontFamily: "Poppins_600SemiBold" },
             ]}
           >
             Hello Again! {"\n"}Welcome back
@@ -80,10 +71,12 @@ export function LoginScreen({ navigation }) {
           <TextLink
             onPress={() => console.log("Forgot Password")}
             label="Forgot Password?"
-            style='mb-6 text-right'
+            style="mb-6 text-right"
           />
           <Pressable
-            onPress={() => console.log("login")}
+            onPress={() => {
+              auth.signinWithEmail(email, password);
+            }}
             style={tw`justify-center items-center bg-purple-600 p-4 w-full rounded-xl mb-6`}
           >
             <Text
@@ -126,10 +119,7 @@ export function LoginScreen({ navigation }) {
             >
               Dont't have an account?{" "}
             </Text>
-            <TextLink
-              onPress={() => navigation.navigate("Register")}
-              label="Register"
-            />
+            <TextLink onPress={() => navigate("Register")} label="Register" />
           </View>
         </View>
       </ScrollView>
