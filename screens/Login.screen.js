@@ -8,10 +8,7 @@ import {
   ScrollView,
   View,
   Text,
-  Image,
-  Pressable,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import {
   useFonts,
   Poppins_400Regular,
@@ -23,14 +20,14 @@ import { useAuth } from "../lib/auth";
 
 import { FormInput } from "../components/FormInput";
 import { TextLink } from "../components/TextLink";
+import { Button } from "../components/Button";
 
-export function LoginScreen() {
+export function LoginScreen({ navigation }) {
   const auth = useAuth();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
   const { width } = useWindowDimensions();
-  const { navigate } = useNavigation();
 
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
@@ -73,21 +70,13 @@ export function LoginScreen() {
             label="Forgot Password?"
             style="mb-6 text-right"
           />
-          <Pressable
+          <Button
             onPress={() => {
               auth.signinWithEmail(email, password);
             }}
-            style={tw`justify-center items-center bg-purple-600 p-4 w-full rounded-xl mb-6`}
-          >
-            <Text
-              style={[
-                tw`text-white text-base`,
-                { fontFamily: "Poppins_500Medium" },
-              ]}
-            >
-              Login
-            </Text>
-          </Pressable>
+            label="Login"
+            primary
+          />
           <Text
             style={[
               tw`text-sm text-zinc-500 text-center uppercase mb-6`,
@@ -96,20 +85,11 @@ export function LoginScreen() {
           >
             Or
           </Text>
-          <Pressable
-            style={tw`flex-row justify-center items-center w-full bg-zinc-100 rounded-xl p-4 mb-6`}
-          >
-            <Image
-              source={require("../assets/images/google.png")}
-              style={tw`h-5 w-5 mr-5`}
-              resizeMode="contain"
-            />
-            <Text
-              style={[tw`text-zinc-800`, { fontFamily: "Poppins_400Regular" }]}
-            >
-              Login with Google
-            </Text>
-          </Pressable>
+          <Button
+            onPress={() => console.warn("Under Construction")}
+            img={require("../assets/images/google.png")}
+            label="Login with Google"
+          />
           <View style={tw`flex-row text-center justify-center my-6`}>
             <Text
               style={[
@@ -119,7 +99,7 @@ export function LoginScreen() {
             >
               Dont't have an account?{" "}
             </Text>
-            <TextLink onPress={() => navigate("Register")} label="Register" />
+            <TextLink onPress={() => navigation.navigate("Register")} label="Register" />
           </View>
         </View>
       </ScrollView>

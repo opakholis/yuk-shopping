@@ -1,6 +1,6 @@
 import * as React from "react";
-import tw from "twrnc";
 import AppLoading from "expo-app-loading";
+import tw from "twrnc";
 import {
   useWindowDimensions,
   SafeAreaView,
@@ -8,7 +8,6 @@ import {
   ScrollView,
   View,
   Text,
-  Pressable,
 } from "react-native";
 import {
   useFonts,
@@ -21,6 +20,7 @@ import { useAuth } from "../lib/auth";
 
 import { FormInput } from "../components/FormInput";
 import { TextLink } from "../components/TextLink";
+import { Button } from "../components/Button";
 
 export function SignupScreen({ navigation }) {
   const auth = useAuth();
@@ -101,19 +101,11 @@ export function SignupScreen({ navigation }) {
               label="Privacy Policy"
             />
           </View>
-          <Pressable
+          <Button
             onPress={() => auth.signupWithEmail(email, password)}
-            style={tw`justify-center items-center bg-purple-600 p-4 w-full rounded-xl mb-6`}
-          >
-            <Text
-              style={[
-                tw`text-base text-white`,
-                { fontFamily: "Poppins_500Medium" },
-              ]}
-            >
-              Continue
-            </Text>
-          </Pressable>
+            label="Continue"
+            primary
+          />
 
           <View style={tw`flex-row text-center justify-center my-6`}>
             <Text
