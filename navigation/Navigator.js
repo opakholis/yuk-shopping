@@ -1,12 +1,58 @@
 import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { AuthNavigator } from "./Stacks";
+import { useAuth } from "../lib/auth";
 
-export function Navigator() {
+import { LoginScreen } from "../screens/Login.screen";
+import { SignupScreen } from "../screens/Signup.screen";
+import { DetailProduct } from "../screens/Product.screen";
+
+import { BottomTabNavigator } from "./BottomTab";
+import { ProductHeader } from "./Header/ProductHeader";
+
+const Stack = createNativeStackNavigator();
+
+export function RootNavigator() {
+  const auth = useAuth();
+
   return (
-    <NavigationContainer>
-      <AuthNavigator />
-    </NavigationContainer>
+    <Stack.Navigator>
+      {!auth.user ? (
+        <Stack.Screen
+          name="Authentication"
+          component={AuthNavigator}
+          options={{ headerShown: false }}
+        />
+      ) : (
+        <>
+          <Stack.Screen
+            name="MainApp"
+            component={BottomTabNavigator}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="DetailProduct"
+            component={DetailProduct}
+            options={({ route }) => ({
+              headerShadowVisible: false,
+              headerBackVisible: false,
+              headerTitle: () => <ProductHeader />,
+            })}
+          />
+        </>
+      )}
+    </Stack.Navigator>
+  );
+}
+
+export function AuthNavigator() {
+  return (
+    <Stack.Navigator
+      initialRouteName="Login"
+      screenOptions={{ headerShown: false }}
+    >
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Register" component={SignupScreen} />
+    </Stack.Navigator>
   );
 }

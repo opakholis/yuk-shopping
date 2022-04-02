@@ -1,3 +1,3 @@
-import { Navigator } from "./Navigator";
+import { RootNavigator } from "./Navigator";
 
-export { Navigator };
+export { RootNavigator };
