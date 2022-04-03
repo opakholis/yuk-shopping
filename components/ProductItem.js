@@ -6,7 +6,7 @@ export function ProductItem({ item }) {
   const navigation = useNavigation();
 
   const onPress = () => {
-    navigation.navigate("DetailProduct", { id: item.id });
+    navigation.navigate("Detail", { id: item.id });
   };
 
   return (
