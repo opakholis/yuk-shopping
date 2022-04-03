@@ -1,38 +1,43 @@
 import * as React from "react";
 import tw from "twrnc";
 import AppLoading from "expo-app-loading";
-import { Text, View, Image, StatusBar, SafeAreaView, Pressable } from "react-native";
-import { useRoute } from "@react-navigation/native";
+import {
+  Text,
+  View,
+  Image,
+  StatusBar,
+  SafeAreaView,
+  Dimensions,
+} from "react-native";
+import { useRoute, useFocusEffect } from "@react-navigation/native";
 import {
   useFonts,
-  Poppins_300Light,
-  Poppins_300Light_Italic,
   Poppins_400Regular,
-  Poppins_400Regular_Italic,
   Poppins_500Medium,
-  Poppins_500Medium_Italic,
   Poppins_600SemiBold,
-  Poppins_600SemiBold_Italic,
-  Poppins_700Bold,
-  Poppins_700Bold_Italic,
 } from "@expo-google-fonts/poppins";
 
+import { useAuth } from "../lib/auth";
+import { Button } from "../components/Button";
+
 export function DetailProduct() {
+  const { user } = useAuth();
   const route = useRoute();
+  const vHeight = Dimensions.get("window").height;
+
   const [product, setProduct] = React.useState([]);
 
   let [fontsLoaded] = useFonts({
-    Poppins_300Light,
-    Poppins_300Light_Italic,
     Poppins_400Regular,
-    Poppins_400Regular_Italic,
     Poppins_500Medium,
-    Poppins_500Medium_Italic,
     Poppins_600SemiBold,
-    Poppins_600SemiBold_Italic,
-    Poppins_700Bold,
-    Poppins_700Bold_Italic,
   });
+
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     setProduct(route.params.product);
+  //   }, [])
+  // );
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -47,7 +52,6 @@ export function DetailProduct() {
         );
         const json = await response.json();
         setProduct(json);
-        console.log(json);
       } catch (err) {
         console.error(err);
       }
@@ -55,9 +59,16 @@ export function DetailProduct() {
     return fetchData();
   }, []);
 
-  const { title, description, price, image } = product;
+  const {
+    title,
+    description,
+    price,
+    // rating: {count, rate},
+    image,
+  } = product;
 
   if (!fontsLoaded) return <AppLoading />;
+  if (!product.id) return <Loader />;
 
   return (
     <SafeAreaView
@@ -68,10 +79,22 @@ export function DetailProduct() {
     >
       <Image
         source={{ uri: image }}
-        style={tw`w-full h-[40%] bg-white rounded-xl shadow-xl shadow-black shadow-color-opacity-50 mt-4`}
+        style={[tw`w-full bg-white rounded-xl mt-4`, { height: vHeight * 0.3 }]}
         resizeMode="contain"
       />
-      <Text style={[tw`text-base mb-4`, { fontFamily: "Poppins_600SemiBold" }]}>
+      <Text
+        numberOfLines={2}
+        style={[
+          tw`text-base text-zinc-800 w-3/4 my-4`,
+          { fontFamily: "Poppins_600SemiBold" },
+        ]}
+      >
+        {title}
+      </Text>
+      <Text style={[tw`text-lg mb-4`, { fontFamily: "Poppins_600SemiBold" }]}>
+        ${price}
+      </Text>
+      <Text style={[tw`text-base mb-2`, { fontFamily: "Poppins_500Medium" }]}>
         Description
       </Text>
       <Text
@@ -83,7 +106,23 @@ export function DetailProduct() {
       >
         {description}
       </Text>
-
+      <View style={tw`absolute bottom-0 w-full left-4`}>
+        <Button
+          onPress={() => console.warn("todo")}
+          label="Add to cart"
+          primary
+        />
+      </View>
     </SafeAreaView>
+  );
+}
+
+function Loader(props) {
+  return (
+    <View style={tw`p-4`}>
+      <View style={tw`bg-zinc-300/20 h-62 w-full rounded-xl mb-4`} />
+      <View style={tw`bg-zinc-300/20 h-6 w-full rounded-xl mb-4`} />
+      <View style={tw`bg-zinc-300/20 h-6 w-3/4 rounded-xl`} />
+    </View>
   );
 }

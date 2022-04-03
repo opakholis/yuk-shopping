@@ -3,7 +3,7 @@ import tw from "twrnc";
 import AppLoading from "expo-app-loading";
 import { FlatGrid } from "react-native-super-grid";
 import { Feather } from "@expo/vector-icons";
-import { TextInput, StatusBar, View, SafeAreaView } from "react-native";
+import { TextInput, Text, StatusBar, View, SafeAreaView } from "react-native";
 import {
   useFonts,
   Poppins_400Regular,
@@ -46,7 +46,7 @@ export function HomeScreen() {
       ]}
     >
       <View
-        style={tw`flex-row items-center bg-zinc-100 rounded-lg w-full my-2`}
+        style={tw`flex-row items-center bg-zinc-50 rounded-lg w-full my-2`}
       >
         <Feather name="search" size={24} style={tw`text-zinc-500 px-2`} />
         <TextInput
@@ -68,3 +68,4 @@ export function HomeScreen() {
     </SafeAreaView>
   );
 }
+

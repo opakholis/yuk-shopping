@@ -8,7 +8,7 @@ import { SignupScreen } from "../screens/Signup.screen";
 import { DetailProduct } from "../screens/Product.screen";
 
 import { BottomTabNavigator } from "./BottomTab";
-import { ProductHeader } from "./Header/ProductHeader";
+import { CustomHeader } from "./Header/CustomHeader";
 
 const Stack = createNativeStackNavigator();
 
@@ -31,12 +31,12 @@ export function RootNavigator() {
             options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="DetailProduct"
+            name="Detail"
             component={DetailProduct}
             options={({ route }) => ({
               headerShadowVisible: false,
               headerBackVisible: false,
-              headerTitle: () => <ProductHeader />,
+              headerTitle: () => <CustomHeader />,
             })}
           />
         </>

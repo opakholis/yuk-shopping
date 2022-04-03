@@ -5,6 +5,7 @@ import { CartScreen } from "../screens/Cart.screen";
 import { ProfileScreen } from "../screens/Profile.screen";
 
 import * as Icon from "../components/icons";
+import { CustomHeader } from "./Header/CustomHeader";
 
 const Tab = createBottomTabNavigator();
 
@@ -12,7 +13,6 @@ export function BottomTabNavigator() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        headerShown: false,
         tabBarShowLabel: false,
         tabBarIcon: ({ color, size }) => {
           if (route.name === "Home") {
@@ -25,9 +25,29 @@ export function BottomTabNavigator() {
         },
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Cart" component={CartScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen
+        name="Cart"
+        component={CartScreen}
+        options={({ route }) => ({
+          headerShadowVisible: false,
+          headerBackVisible: false,
+          headerTitle: () => <CustomHeader />,
+        })}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={({ route }) => ({
+          headerShadowVisible: false,
+          headerBackVisible: false,
+          headerTitle: () => <CustomHeader />,
+        })}
+      />
     </Tab.Navigator>
   );
 }

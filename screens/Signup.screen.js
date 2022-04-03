@@ -102,7 +102,7 @@ export function SignupScreen({ navigation }) {
             />
           </View>
           <Button
-            onPress={() => auth.signupWithEmail(email, password)}
+            onPress={() => auth.signupWithEmail(email, password, name)}
             label="Continue"
             primary
           />
