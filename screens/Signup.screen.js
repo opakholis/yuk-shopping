@@ -1,5 +1,4 @@
 import * as React from "react";
-import AppLoading from "expo-app-loading";
 import tw from "twrnc";
 import {
   useWindowDimensions,
@@ -7,20 +6,15 @@ import {
   StatusBar,
   ScrollView,
   View,
-  Text,
+  Text as TextNative,
 } from "react-native";
-import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-} from "@expo-google-fonts/poppins";
 
 import { useAuth } from "../lib/auth";
 
 import { FormInput } from "../components/FormInput";
 import { TextLink } from "../components/TextLink";
 import { Button } from "../components/Button";
+import { Text } from "../components/Text";
 
 export function SignupScreen({ navigation }) {
   const auth = useAuth();
@@ -31,28 +25,20 @@ export function SignupScreen({ navigation }) {
 
   const { width } = useWindowDimensions();
 
-  let [fontsLoaded] = useFonts({
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-  });
-
-  if (!fontsLoaded) return <AppLoading />;
-
   return (
     <SafeAreaView
       style={[tw`bg-white flex-1`, { paddingTop: StatusBar.currentHeight }]}
     >
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={tw`flex-grow mb-auto justify-end bg-white px-6`}>
-          <Text
+          <TextNative
             style={[
               tw`text-4xl mt-12 mb-8 leading-relaxed`,
               { width: width / 2, fontFamily: "Poppins_600SemiBold" },
             ]}
           >
             Hello! {"\n"}Signup to {"\n"}get started
-          </Text>
+          </TextNative>
           <FormInput
             icon="person-outline"
             placeholder="Full Name"
@@ -76,26 +62,14 @@ export function SignupScreen({ navigation }) {
           />
           <View style={tw`flex-row items-center w-full mb-6 flex-wrap`}>
             <Text
-              style={[
-                tw`text-sm text-zinc-500`,
-                { fontFamily: "Poppins_400Regular" },
-              ]}
-            >
-              By signin up, you're agree to our{" "}
-            </Text>
+              style="text-sm text-zinc-500"
+              label="By signin up, you're agree to our "
+            />
             <TextLink
               onPress={() => console.log("Terms & Conditions")}
               label="Terms & Conditions"
             />
-            <Text
-              style={[
-                tw`text-sm text-zinc-500`,
-                { fontFamily: "Poppins_400Regular" },
-              ]}
-            >
-              {" "}
-              and{" "}
-            </Text>
+            <Text style="text-sm text-zinc-500" label=" and " />
             <TextLink
               onPress={() => console.log("Privacy Policy")}
               label="Privacy Policy"
@@ -109,13 +83,9 @@ export function SignupScreen({ navigation }) {
 
           <View style={tw`flex-row text-center justify-center my-6`}>
             <Text
-              style={[
-                tw`text-sm text-zinc-500`,
-                { fontFamily: "Poppins_400Regular" },
-              ]}
-            >
-              Joined us before?{" "}
-            </Text>
+              style="text-sm text-zinc-500"
+              label="Joined us before? "
+            />
             <TextLink
               onPress={() => navigation.navigate("Login")}
               label="Login"

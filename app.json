@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "final-project",
-    "slug": "final-project",
-    "version": "1.0.0",
+    "name": "Fake Store",
+    "slug": "fake-store",
+    "version": "0.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -23,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.opxop.fakestore"
     },
     "web": {
       "favicon": "./assets/favicon.png"

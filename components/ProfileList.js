@@ -1,16 +1,10 @@
-import { Pressable, Text } from "react-native";
+import { Pressable } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import AppLoading from "expo-app-loading";
-import { useFonts, Poppins_400Regular } from "@expo-google-fonts/poppins";
 import tw from "twrnc";
 
+import { Text } from "./Text";
+
 export function ProfileList({ icon, title, onPress }) {
-  let [fontsLoaded] = useFonts({
-    Poppins_400Regular,
-  });
-
-  if (!fontsLoaded) return <AppLoading />;
-
   return (
     <Pressable
       onPress={onPress}
@@ -21,14 +15,7 @@ export function ProfileList({ icon, title, onPress }) {
         size={20}
         style={tw`bg-zinc-50 p-2 rounded-lg mr-4`}
       />
-      <Text
-        style={[
-          tw`flex-grow text-sm text-zinc-800`,
-          { fontFamily: "Poppins_400Regular" },
-        ]}
-      >
-        {title}
-      </Text>
+      <Text label={title} style="text-sm text-zinc-800 flex-grow" />
       <Feather
         name="chevron-right"
         size={20}
