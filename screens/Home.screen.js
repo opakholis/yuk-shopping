@@ -12,9 +12,9 @@ export function HomeScreen() {
   React.useEffect(() => {
     const fetchData = async () => {
       await fetch("https://fakestoreapi.com/products")
-        .then((res) => res.json())
-        .then((res) => {
-          setProducts(res);
+        .then((response) => response.json())
+        .then((json) => {
+          setProducts(json);
         })
         .catch((err) => {
           console.error(err);
