@@ -1,5 +1,4 @@
 import * as React from "react";
-import AppLoading from "expo-app-loading";
 import tw from "twrnc";
 import {
   useWindowDimensions,
@@ -7,20 +6,15 @@ import {
   StatusBar,
   ScrollView,
   View,
-  Text,
+  Text as TextNative,
 } from "react-native";
-import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-} from "@expo-google-fonts/poppins";
 
 import { useAuth } from "../lib/auth";
 
 import { FormInput } from "../components/FormInput";
 import { TextLink } from "../components/TextLink";
 import { Button } from "../components/Button";
+import { Text } from "../components/Text";
 
 export function LoginScreen({ navigation }) {
   const auth = useAuth();
@@ -29,28 +23,20 @@ export function LoginScreen({ navigation }) {
 
   const { width } = useWindowDimensions();
 
-  let [fontsLoaded] = useFonts({
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-  });
-
-  if (!fontsLoaded) return <AppLoading />;
-
   return (
     <SafeAreaView
       style={[tw`bg-white flex-1`, { paddingTop: StatusBar.currentHeight }]}
     >
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={tw`flex-grow mb-auto justify-end bg-white px-6`}>
-          <Text
+          <TextNative
             style={[
               tw`text-4xl mt-12 mb-8 leading-relaxed`,
               { width: width / 2, fontFamily: "Poppins_600SemiBold" },
             ]}
           >
             Hello Again! {"\n"}Welcome back
-          </Text>
+          </TextNative>
           <FormInput
             icon="alternate-email"
             placeholder="Email Address"
@@ -78,28 +64,23 @@ export function LoginScreen({ navigation }) {
             primary
           />
           <Text
-            style={[
-              tw`text-sm text-zinc-500 text-center uppercase mb-6`,
-              { fontFamily: "Poppins_400Regular" },
-            ]}
-          >
-            Or
-          </Text>
+            style="text-sm text-zinc-500 text-center uppercase mb-6"
+            label="or"
+          />
           <Button
             onPress={() => console.warn("Under Construction")}
-            img={require("../assets/images/google.png")}
+            logo={require("../assets/images/google.png")}
             label="Login with Google"
           />
           <View style={tw`flex-row text-center justify-center my-6`}>
             <Text
-              style={[
-                tw`text-sm text-zinc-500`,
-                { fontFamily: "Poppins_400Regular" },
-              ]}
-            >
-              Dont't have an account?{" "}
-            </Text>
-            <TextLink onPress={() => navigation.navigate("Register")} label="Register" />
+              style="text-sm text-zinc-500"
+              label="Dont't have an account? "
+            />
+            <TextLink
+              onPress={() => navigation.navigate("Register")}
+              label="Register"
+            />
           </View>
         </View>
       </ScrollView>

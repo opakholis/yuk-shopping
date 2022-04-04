@@ -1,6 +1,8 @@
-import { Text, View, Image, Pressable } from "react-native";
+import { Image, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import tw from "twrnc";
+
+import { Text } from "./Text";
 
 export function ProductItem({ item }) {
   const navigation = useNavigation();
@@ -23,21 +25,11 @@ export function ProductItem({ item }) {
       />
       <Text
         numberOfLines={1}
-        style={[
-          tw`text-zinc-800 text-sm mb-2`,
-          { fontFamily: "Poppins_600SemiBold" },
-        ]}
-      >
-        {item.title}
-      </Text>
-      <Text
-        style={[
-          tw`text-zinc-500 text-sm`,
-          { fontFamily: "Poppins_400Regular" },
-        ]}
-      >
-        ${item.price}
-      </Text>
+        style="text-zinc-800 text-sm mb-2"
+        fontWeight="bold"
+        label={item.title}
+      />
+      <Text style="text-zinc-500 text-sm" label={`$${item.price}`} />
     </Pressable>
   );
 }

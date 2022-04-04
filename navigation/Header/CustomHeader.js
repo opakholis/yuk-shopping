@@ -1,20 +1,14 @@
-import { Text, View, Pressable, useWindowDimensions } from "react-native";
+import { View, Pressable, useWindowDimensions } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
 import tw from "twrnc";
-import AppLoading from "expo-app-loading";
-import { useFonts, Poppins_500Medium } from "@expo-google-fonts/poppins";
+
+import { Text } from "../../components/Text";
 
 export function CustomHeader() {
-  let [fontsLoaded] = useFonts({
-    Poppins_500Medium,
-  });
-
   const navigation = useNavigation();
   const { name } = useRoute();
   const { width } = useWindowDimensions();
-
-  if (!fontsLoaded) return <AppLoading />;
 
   return (
     <View
@@ -29,9 +23,7 @@ export function CustomHeader() {
       >
         <Entypo name="chevron-left" size={24} style={tw`text-zinc-800`} />
       </Pressable>
-      <Text style={[tw`text-base`, { fontFamily: "Poppins_500Medium" }]}>
-        {name}
-      </Text>
+      <Text style="text-base text-zinc-800" label={name} fontWeight="medium" />
       <Entypo
         name="dots-two-horizontal"
         size={24}

@@ -1,42 +1,27 @@
 import * as React from "react";
 import tw from "twrnc";
-import AppLoading from "expo-app-loading";
 import { FlatGrid } from "react-native-super-grid";
 import { Feather } from "@expo/vector-icons";
-import { TextInput, Text, StatusBar, View, SafeAreaView } from "react-native";
-import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-} from "@expo-google-fonts/poppins";
+import { TextInput, StatusBar, View, SafeAreaView } from "react-native";
 
 import { ProductItem } from "../components/ProductItem";
 
 export function HomeScreen() {
   const [products, setProducts] = React.useState([]);
 
-  let [fontsLoaded] = useFonts({
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-  });
-
   React.useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await fetch("https://fakestoreapi.com/products");
-        const json = await response.json();
-        setProducts(json);
-        // console.log(json);
-      } catch (err) {
-        console.error(err);
-      }
+      await fetch("https://fakestoreapi.com/products")
+        .then((res) => res.json())
+        .then((res) => {
+          setProducts(res);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     };
     return fetchData();
   }, []);
-
-  if (!fontsLoaded) return <AppLoading />;
 
   return (
     <SafeAreaView
@@ -45,9 +30,7 @@ export function HomeScreen() {
         { paddingTop: StatusBar.currentHeight },
       ]}
     >
-      <View
-        style={tw`flex-row items-center bg-zinc-50 rounded-lg w-full my-2`}
-      >
+      <View style={tw`flex-row items-center bg-zinc-50 rounded-lg w-full my-2`}>
         <Feather name="search" size={24} style={tw`text-zinc-500 px-2`} />
         <TextInput
           style={[
@@ -68,4 +51,3 @@ export function HomeScreen() {
     </SafeAreaView>
   );
 }
-

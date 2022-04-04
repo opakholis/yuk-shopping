@@ -1,60 +1,27 @@
 import * as React from "react";
 import tw from "twrnc";
-import AppLoading from "expo-app-loading";
-import {
-  Text,
-  View,
-  Image,
-  StatusBar,
-  SafeAreaView,
-  Dimensions,
-} from "react-native";
-import { useRoute, useFocusEffect } from "@react-navigation/native";
-import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-} from "@expo-google-fonts/poppins";
+import { View, Image, SafeAreaView, Dimensions } from "react-native";
+import { useRoute } from "@react-navigation/native";
 
-import { useAuth } from "../lib/auth";
 import { Button } from "../components/Button";
+import { Text } from "../components/Text";
 
-export function DetailProduct() {
-  const { user } = useAuth();
+export function DetailProduct({ navigation }) {
   const route = useRoute();
   const vHeight = Dimensions.get("window").height;
 
   const [product, setProduct] = React.useState([]);
 
-  let [fontsLoaded] = useFonts({
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-  });
-
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     setProduct(route.params.product);
-  //   }, [])
-  // );
-
   React.useEffect(() => {
     const fetchData = async () => {
       if (!route.params?.id) {
         console.warn("No product id provided");
-        return;
+        return navigation.goBack();
       }
 
-      try {
-        const response = await fetch(
-          `https://fakestoreapi.com/products/${route.params.id}`
-        );
-        const json = await response.json();
-        setProduct(json);
-      } catch (err) {
-        console.error(err);
-      }
+      await fetch(`https://fakestoreapi.com/products/${route.params.id}`)
+        .then((response) => response.json())
+        .then((json) => setProduct(json));
     };
     return fetchData();
   }, []);
@@ -67,16 +34,10 @@ export function DetailProduct() {
     image,
   } = product;
 
-  if (!fontsLoaded) return <AppLoading />;
   if (!product.id) return <Loader />;
 
   return (
-    <SafeAreaView
-      style={[
-        tw`bg-white flex-1 px-4`,
-        { paddingTop: StatusBar.currentHeight },
-      ]}
-    >
+    <SafeAreaView style={tw`bg-white flex-1 px-4`}>
       <Image
         source={{ uri: image }}
         style={[tw`w-full bg-white rounded-xl mt-4`, { height: vHeight * 0.3 }]}
@@ -84,28 +45,16 @@ export function DetailProduct() {
       />
       <Text
         numberOfLines={2}
-        style={[
-          tw`text-base text-zinc-800 w-3/4 my-4`,
-          { fontFamily: "Poppins_600SemiBold" },
-        ]}
-      >
-        {title}
-      </Text>
-      <Text style={[tw`text-lg mb-4`, { fontFamily: "Poppins_600SemiBold" }]}>
-        ${price}
-      </Text>
-      <Text style={[tw`text-base mb-2`, { fontFamily: "Poppins_500Medium" }]}>
-        Description
-      </Text>
+        style="text-base text-zinc-800 w-3/4 my-4"
+        label={title}
+      />
+      <Text style="text-lg mb-4" label={`$${price}`} fontWeight="bold" />
+      <Text style="text-base mb-2" label="Description" fontWeight="medium" />
       <Text
         numberOfLines={4}
-        style={[
-          tw`text-sm mb-4 leading-loose text-zinc-500`,
-          { fontFamily: "Poppins_400Regular" },
-        ]}
-      >
-        {description}
-      </Text>
+        style="text-sm mb-4 leading-loose text-zinc-500"
+        label={description}
+      />
       <View style={tw`absolute bottom-0 w-full left-4`}>
         <Button
           onPress={() => console.warn("todo")}
