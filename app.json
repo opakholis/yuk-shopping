@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Fake Store",
-    "slug": "fake-store",
+    "name": "Yuk Shopping",
+    "slug": "yuk-shopping",
     "version": "0.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -24,7 +24,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.opxop.fakestore"
+      "package": "com.opakholis.yukshopping"
     },
     "web": {
       "favicon": "./assets/favicon.png"
